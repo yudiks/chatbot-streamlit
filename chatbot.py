@@ -39,13 +39,13 @@ def generate_response_with_huggingface(user_instruction, text_to_respond):
   st.info(response)
 
 with st.form('my_form'):
-    text_to_respond = st.text_area('Ask YudiAI:', 'What are the three key pieces of advice for learning how to be a great leader?')
+    user_persona_default = f"""A wise advisor who often give a short but concise answer."""
+    user_instruction = st.text_area('Persona:', user_persona_default)
+    default_question = f"""What are the three key pieces of advice for learning how to be a great leader?"""
+    text_to_respond = st.text_area('Enter Question:', default_question)
     submitted = st.form_submit_button('Submit')
 
     if not HUGGINGFACEHUB_API_TOKEN.startswith('hf'):
         st.warning('Please enter your HuggingFace API key!', icon='⚠')
-    if submitted and HUGGINGFACEHUB_API_TOKEN.startswith('hf'):
-        user_instruction = f"""
-        A friendly robot that a little bit nerdy tries to answer your question in a funny way.
-        """
+    if submitted and HUGGINGFACEHUB_API_TOKEN.startswith('hf'):        
         generate_response_with_huggingface(user_instruction, text_to_respond)
